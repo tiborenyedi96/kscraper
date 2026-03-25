@@ -2,11 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 
 def scrape(url: str) -> dict[str, str]:
-    page_limiter: int = 100
+    page_limiter: int = 1
     keys: list[str] = []
     values: list[str] = []
 
-    for i in range(1, page_limiter):
+    for i in range(1, page_limiter + 1):
         current_url: str = f"{url}/catalogue/page-{i}.html"
         try:
             request = requests.get(current_url)
