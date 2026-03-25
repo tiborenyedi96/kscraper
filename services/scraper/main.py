@@ -22,16 +22,9 @@ def main():
         book_prices.append(item.get_text().replace("£", ""))
     
     # merge them together
-    books: list[str] = []
-    try:
-        for i in range(len(book_titles)):
-            books.append(book_titles[i])
-            books.append(book_prices[i])
-    except IndexError as e:
-        print(e)
-        return None
-    
-    print(books)
+    book_dict = dict(zip(book_titles, book_prices))
+
+    print(book_dict)
 
 if __name__ == "__main__":
     main()
