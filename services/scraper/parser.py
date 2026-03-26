@@ -18,5 +18,5 @@ def parse_configuration(filepath: str) -> dict[str, any]:
             "fields": data["site"]["fields"]
         }
     except KeyError:
-        raise KeyError(f"Configuration is missing one or more required fields. (required fields: site, url, pagination, limiter, fields)")
+        raise KeyError("Configuration is missing one or more required fields. (required fields: site, url, pagination, limiter, fields)")
     return output
