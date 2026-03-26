@@ -35,6 +35,22 @@ def test_yaml_syntax_error() -> None:
     with pytest.raises(yaml.YAMLError):
         parse_configuration(f"{path_prefix}/error.yaml")
 
-def test_yaml_key_error() -> None:
+def test_yaml_missing_url() -> None:
     with pytest.raises(KeyError):
         parse_configuration(f"{path_prefix}/missingurl.yaml")
+
+def test_yaml_missing_limiter() -> None:
+    with pytest.raises(KeyError):
+        parse_configuration(f"{path_prefix}/missinglimiter.yaml")
+
+def test_yaml_missing_fields() -> None:
+    with pytest.raises(KeyError):
+        parse_configuration(f"{path_prefix}/missingfields.yaml")
+
+def test_yaml_missing_pagination() -> None:
+    with pytest.raises(KeyError):
+        parse_configuration(f"{path_prefix}/missingpagination.yaml")
+
+def test_yaml_missing_multiple() -> None:
+    with pytest.raises(KeyError):
+        parse_configuration(f"{path_prefix}/missingmultiple.yaml")
