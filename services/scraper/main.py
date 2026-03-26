@@ -9,11 +9,7 @@ def scrape(url: str) -> dict[str, str]:
 
     for i in range(1, page_limiter + 1):
         current_url: str = f"{url}/catalogue/page-{i}.html"
-        try:
-            request = requests.get(current_url)
-        except Exception as e:
-            print(e)
-            return None
+        request = requests.get(current_url)
 
         if request.status_code != 200:
             break
@@ -32,8 +28,11 @@ def scrape(url: str) -> dict[str, str]:
 
 
 def main():
-    result = scrape("https://books.toscrape.com")
-    print(result)
+    try:
+        result = scrape("https://books.toscrape.com")
+        print(result)
+    except requests.RequestException as e:
+        print(f"Scraping failed: {e}")
 
 
 if __name__ == "__main__":
