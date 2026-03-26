@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def scrape(url: str) -> dict[str, str]:
+def scrape(url: str) -> dict[str, str] | None:
     page_limiter: int = 1
     keys: list[str] = []
     values: list[str] = []

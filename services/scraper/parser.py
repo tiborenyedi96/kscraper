@@ -1,7 +1,16 @@
+from typing import Any, TypedDict
+
 import yaml
 
 
-def parse_configuration(filepath: str) -> dict[str, any]:
+class ScraperConfig(TypedDict):
+    url: str
+    pagination: str
+    limiter: int
+    fields: dict[str, Any]
+
+
+def parse_configuration(filepath: str) -> ScraperConfig:
     try:
         with open(filepath, "r") as file:
             try:
@@ -12,7 +21,7 @@ def parse_configuration(filepath: str) -> dict[str, any]:
         raise FileNotFoundError(f"Configuration file not found: {filepath}")
 
     try:
-        output: dict[str, any] = {
+        output: ScraperConfig = {
             "url": data["site"]["url"],
             "pagination": data["site"]["pagination"]["pattern"],
             "limiter": data["site"]["pagination"]["limiter"],
