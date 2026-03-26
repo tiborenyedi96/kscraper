@@ -1,0 +1,14 @@
+site:
+  url: "https://books.toscrape.com"
+  pagination:
+    pattern: "{url}/catalogue/page-{page}.html"
+    limiter: 1
+  fields:
+    title:
+      tag: "a"
+      attribute: "title"
+    price:
+      tag: "p"
+      class: "price_color"
+      text: true
+      remove: "£"
