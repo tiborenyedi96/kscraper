@@ -1,9 +1,16 @@
+import logging
 from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup
 
 from parser import ScraperConfig, parse_configuration
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 CONFIG_PATH = Path(__file__).parent / "config.yaml"
 
@@ -41,11 +48,12 @@ def main():
     try:
         config = parse_configuration(str(CONFIG_PATH))
         result = scrape(config)
-        print(result)
+        logger.info("Scraping finished, %d items collected", len(result))
+        logger.debug("Result: %s", result)
     except FileNotFoundError as e:
-        print(f"Config error: {e}")
+        logger.error("Config error: %s", e)
     except requests.RequestException as e:
-        print(f"Scraping failed: {e}")
+        logger.error("Scraping failed: %s", e)
 
 
 if __name__ == "__main__":
