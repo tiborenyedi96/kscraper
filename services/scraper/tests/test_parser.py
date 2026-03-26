@@ -2,8 +2,10 @@ import pytest
 import yaml
 from parser import parse_configuration
 
+path_prefix: str = "./services/scraper/tests/fixtures/"
+
 def test_parser() -> None:
-    assert parse_configuration("./services/scraper/mock.yaml") == {
+    assert parse_configuration(f"{path_prefix}/mock.yaml") == {
         "url": "mock-url",
         "pagination": "mock-pattern",
         "limiter": 100,
@@ -31,4 +33,8 @@ def test_yaml_not_exist() -> None:
 
 def test_yaml_syntax_error() -> None:
     with pytest.raises(yaml.YAMLError):
-        parse_configuration("./services/scraper/error.yaml")
+        parse_configuration(f"{path_prefix}/error.yaml")
+
+def test_yaml_key_error() -> None:
+    with pytest.raises(KeyError):
+        parse_configuration(f"{path_prefix}/missingurl.yaml")
