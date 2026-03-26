@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+
 def scrape(url: str) -> dict[str, str]:
     page_limiter: int = 1
     keys: list[str] = []
@@ -29,9 +30,11 @@ def scrape(url: str) -> dict[str, str]:
     result = dict(zip(keys, values))
     return result
 
+
 def main():
     result = scrape("https://books.toscrape.com")
     print(result)
+
 
 if __name__ == "__main__":
     main()
