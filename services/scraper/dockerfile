@@ -1,0 +1,17 @@
+FROM python:3.12-slim AS base
+WORKDIR /app
+
+RUN useradd -m scraper && chown -R scraper /app
+USER scraper
+
+FROM python:3.12-alpine
+WORKDIR /app
+
+RUN adduser -D scraper && chown -R scraper /app
+USER scraper
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+COPY --chown=scraper uv.lock ./
+COPY --chown=scraper services/scraper/ ./
+
+CMD ["uv", "run", "main.py"]
