@@ -32,8 +32,7 @@ def scrape(config: ScraperConfig) -> list[dict[str, str]]:
                         field_values[field_name].append(value)
 
     return [
-        dict(zip(field_values.keys(), values))
-        for values in zip(*field_values.values())
+        dict(zip(field_values.keys(), values)) for values in zip(*field_values.values())
     ]
 
 
