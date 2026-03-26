@@ -1,12 +1,14 @@
+from pathlib import Path
+
 import pytest
 import yaml
 from parser import parse_configuration
 
-path_prefix: str = "./services/scraper/tests/fixtures/"
+FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
 
 def test_parser() -> None:
-    assert parse_configuration(f"{path_prefix}/mock.yaml") == {
+    assert parse_configuration(str(FIXTURES_DIR / "mock.yaml")) == {
         "url": "mock-url",
         "pagination": "mock-pattern",
         "limiter": 100,
@@ -25,29 +27,29 @@ def test_yaml_not_exist() -> None:
 
 def test_yaml_syntax_error() -> None:
     with pytest.raises(yaml.YAMLError):
-        parse_configuration(f"{path_prefix}/error.yaml")
+        parse_configuration(str(FIXTURES_DIR / "error.yaml"))
 
 
 def test_yaml_missing_url() -> None:
     with pytest.raises(KeyError):
-        parse_configuration(f"{path_prefix}/missingurl.yaml")
+        parse_configuration(str(FIXTURES_DIR / "missingurl.yaml"))
 
 
 def test_yaml_missing_limiter() -> None:
     with pytest.raises(KeyError):
-        parse_configuration(f"{path_prefix}/missinglimiter.yaml")
+        parse_configuration(str(FIXTURES_DIR / "missinglimiter.yaml"))
 
 
 def test_yaml_missing_fields() -> None:
     with pytest.raises(KeyError):
-        parse_configuration(f"{path_prefix}/missingfields.yaml")
+        parse_configuration(str(FIXTURES_DIR / "missingfields.yaml"))
 
 
 def test_yaml_missing_pagination() -> None:
     with pytest.raises(KeyError):
-        parse_configuration(f"{path_prefix}/missingpagination.yaml")
+        parse_configuration(str(FIXTURES_DIR / "missingpagination.yaml"))
 
 
 def test_yaml_missing_multiple() -> None:
     with pytest.raises(KeyError):
-        parse_configuration(f"{path_prefix}/missingmultiple.yaml")
+        parse_configuration(str(FIXTURES_DIR / "missingmultiple.yaml"))
