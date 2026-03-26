@@ -1,16 +1,6 @@
 site:
-  pagination:
-    pattern: "mock-pattern"
-    limiter: 100
+  url: "mock-url"
   fields:
     title:
       tag: "a"
       attribute: "href"
-    price:
-      tag: "p"
-      text: true
-      remove: "$"
-    rating:
-      tag: "p"
-      text: true
-      class: "rating"
