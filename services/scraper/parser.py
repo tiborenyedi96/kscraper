@@ -6,10 +6,9 @@ def parse_configuration(filepath: str) -> dict[str, any]:
             try:
                 data = yaml.safe_load(file)
             except yaml.YAMLError as e:
-                print(e)
-                return None
+                raise yaml.YAMLError(f"Yaml file is invalid: {filepath}")
     except FileNotFoundError as e:
-        return None
+        raise FileNotFoundError(f"Configuration file not found: {filepath}")
     
     output: dict[str, any] = {
         "url": data["site"]["url"],
@@ -18,7 +17,4 @@ def parse_configuration(filepath: str) -> dict[str, any]:
         "fields": data["site"]["fields"]
     }
 
-    print(output)
     return output
-
-parse_configuration("./services/scraper/example.yaml")
