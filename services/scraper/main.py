@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 
 from parser import ScraperConfig, parse_configuration
 
-CONFIG_PATH = Path(__file__).parent / "example.yaml"
+CONFIG_PATH = Path(__file__).parent / "config.yaml"
 
 
 def scrape(config: ScraperConfig) -> list[dict[str, str]]:
