@@ -3,6 +3,9 @@ services:
     build:
       context: .
       dockerfile: services/scraper/dockerfile
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
     depends_on:
       rabbitmq:
         condition: service_healthy
