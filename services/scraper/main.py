@@ -1,4 +1,6 @@
+import os
 import logging
+import pika
 from pathlib import Path
 
 import requests
@@ -15,6 +17,7 @@ logger = logging.getLogger(__name__)
 CONFIG_PATH = Path(__file__).parent / "config.yaml"
 
 
+# scraper
 def scrape(config: ScraperConfig) -> list[dict[str, str]]:
     field_values: dict[str, list[str]] = {name: [] for name in config["fields"]}
 
@@ -43,6 +46,20 @@ def scrape(config: ScraperConfig) -> list[dict[str, str]]:
     ]
 
 
+# rabbitmq
+def send_message() -> None:
+    credentials = pika.PlainCredentials(os.getenv("RABBITMQ_DEFAULT_USER"), os.getenv("RABBITMQ_DEFAULT_PASS"), erase_on_connect=True)
+    parameters = pika.ConnectionParameters(host="rabbitmq", virtual_host="kscraper", credentials=credentials)
+    connection = pika.BlockingConnection(parameters)
+    channel = connection.channel()
+    channel.queue_declare(
+        queue="kscraper", durable=True, arguments={"x-queue-type": "quorum"}
+    )
+    channel.basic_publish(exchange="", routing_key="kscraper", body="Hello scraper!")
+    connection.close()
+
+
+# main
 def main():
     try:
         config = parse_configuration(str(CONFIG_PATH))
@@ -53,6 +70,8 @@ def main():
         logger.error("Config error: %s", e)
     except requests.RequestException as e:
         logger.error("Scraping failed: %s", e)
+
+    send_message()
 
 
 if __name__ == "__main__":
