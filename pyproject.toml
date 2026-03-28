@@ -16,4 +16,6 @@ members = [
 [dependency-groups]
 dev = [
     "diagrams>=0.25.1",
+    "pytest>=9.0.2",
+    "ruff>=0.15.8",
 ]
