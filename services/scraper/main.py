@@ -48,8 +48,14 @@ def scrape(config: ScraperConfig) -> list[dict[str, str]]:
 
 # rabbitmq
 def send_message() -> None:
-    credentials = pika.PlainCredentials(os.getenv("RABBITMQ_DEFAULT_USER"), os.getenv("RABBITMQ_DEFAULT_PASS"), erase_on_connect=True)
-    parameters = pika.ConnectionParameters(host="rabbitmq", virtual_host="kscraper", credentials=credentials)
+    credentials = pika.PlainCredentials(
+        os.getenv("RABBITMQ_DEFAULT_USER"),
+        os.getenv("RABBITMQ_DEFAULT_PASS"),
+        erase_on_connect=True,
+    )
+    parameters = pika.ConnectionParameters(
+        host="rabbitmq", virtual_host="kscraper", credentials=credentials
+    )
     connection = pika.BlockingConnection(parameters)
     channel = connection.channel()
     channel.queue_declare(
