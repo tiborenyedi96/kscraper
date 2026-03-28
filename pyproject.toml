@@ -12,3 +12,8 @@ members = [
     "services/api",
     "packages/shared",
 ]
+
+[dependency-groups]
+dev = [
+    "diagrams>=0.25.1",
+]
