@@ -448,6 +448,12 @@ wheels = [
 name = "queue-consumer"
 version = "0.1.0"
 source = { virtual = "services/queue-consumer" }
+dependencies = [
+    { name = "shared" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "shared", editable = "packages/shared" }]
 
 [[package]]
 name = "requests"
@@ -495,23 +501,29 @@ version = "0.1.0"
 source = { virtual = "services/scraper" }
 dependencies = [
     { name = "beautifulsoup4" },
-    { name = "pika" },
     { name = "pyyaml" },
     { name = "requests" },
+    { name = "shared" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "beautifulsoup4", specifier = ">=4.14.3" },
-    { name = "pika", specifier = ">=1.3.2" },
     { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "requests", specifier = ">=2.32.5" },
+    { name = "shared", editable = "packages/shared" },
 ]
 
 [[package]]
 name = "shared"
 version = "0.1.0"
 source = { editable = "packages/shared" }
+dependencies = [
+    { name = "pika" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pika", specifier = ">=1.3.2" }]
 
 [[package]]
 name = "soupsieve"
