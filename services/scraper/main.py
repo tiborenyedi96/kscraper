@@ -47,7 +47,7 @@ def scrape(config: ScraperConfig) -> list[dict[str, str]]:
 
 
 # rabbitmq
-def send_message() -> None:
+def send_messages(messages: list[str]) -> None:
     credentials = pika.PlainCredentials(
         os.getenv("RABBITMQ_DEFAULT_USER"),
         os.getenv("RABBITMQ_DEFAULT_PASS"),
@@ -61,7 +61,8 @@ def send_message() -> None:
     channel.queue_declare(
         queue="kscraper", durable=True, arguments={"x-queue-type": "quorum"}
     )
-    channel.basic_publish(exchange="", routing_key="kscraper", body="Hello scraper!")
+    for message in messages:
+        channel.basic_publish(exchange="", routing_key="kscraper", body=message)
     connection.close()
 
 
@@ -72,12 +73,13 @@ def main():
         result = scrape(config)
         logger.info("Scraping finished, %d items collected", len(result))
         logger.debug("Result: %s", result)
+        send_messages([str(item) for item in result])
     except FileNotFoundError as e:
         logger.error("Config error: %s", e)
     except requests.RequestException as e:
         logger.error("Scraping failed: %s", e)
-
-    send_message()
+    except pika.exceptions.AMQPError as e:
+        logger.error("RabbitMQ error: %s", e)
 
 
 if __name__ == "__main__":
