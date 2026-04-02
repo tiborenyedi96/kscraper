@@ -7,8 +7,10 @@ RUN adduser -D scraper && chown -R scraper /app
 USER scraper
 
 COPY --chown=scraper pyproject.toml uv.lock ./
-RUN uv sync --frozen --no-dev
+COPY --chown=scraper services/scraper/pyproject.toml ./services/scraper/pyproject.toml
+COPY --chown=scraper packages/shared/ ./packages/shared/
+RUN uv sync --frozen --no-dev --package scraper
 
-COPY --chown=scraper services/scraper/ ./
+COPY --chown=scraper services/scraper/ ./services/scraper/
 
-CMD ["uv", "run", "main.py"]
+CMD ["uv", "run", "--directory", "services/scraper", "main.py"]
