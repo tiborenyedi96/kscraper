@@ -40,7 +40,7 @@ def test_scrape_stops_on_non_200(mock_get):
     mock_get.return_value = make_response(status_code=404)
     result = scrape(CONFIG)
     assert result == []
-    mock_get.assert_called_once()  # stopped after first page
+    mock_get.assert_called_once()
 
 
 @patch("scraper.requests.get")
