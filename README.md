@@ -84,7 +84,7 @@ site:
   url: "https://books.toscrape.com"
   pagination:
     pattern: "{url}/catalogue/page-{page}.html"
-    limiter: 1          # number of pages to scrape (0 = all)
+    limiter: 1          # number of pages to scrape
   fields:
     title:
       tag: "a"
