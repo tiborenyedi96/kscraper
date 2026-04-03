@@ -10,6 +10,17 @@ services:
       rabbitmq:
         condition: service_healthy
   
+  consumer:
+    build:
+      context: .
+      dockerfile: services/queue-consumer/dockerfile
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+  
   rabbitmq:
     image: rabbitmq:4.3-rc-management-alpine
     ports:
